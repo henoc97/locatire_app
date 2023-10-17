@@ -6,14 +6,16 @@ class NotificationM{
   int? notificationID;
   String notifTitle;
   String notifMessage;
+  String monthPayed;
   DateTime notifDate;
 
-  NotificationM(this.notificationID,this.notifTitle, this.notifMessage, this.notifDate);
+  NotificationM(this.notificationID,this.notifTitle, this.notifMessage, this.monthPayed, this.notifDate);
 
   factory NotificationM.fromMap(Map<String, dynamic> map) => NotificationM(
     map['notificationID'], 
     map['notifTitle'],
     map['notifMessage'], 
+    map["monthPayed"],
     map['notifDate']
     );
 

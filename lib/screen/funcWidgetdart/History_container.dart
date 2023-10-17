@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../model/property.dart';
+import '../../model/received.dart';
+import '../../model/tenant.dart';
 import '../../myfunctions/current_date.dart';
 
 
@@ -12,11 +14,17 @@ class HistoriesContainer extends StatefulWidget {
   const HistoriesContainer({
     super.key,
     required this.clr,
-    required this.size,
+    required this.size, 
+    required this.myTenant, 
+    required this.myProperty, 
+    required this.myReceived,
   });
 
   final Map<String, Color> clr;
   final Size size;
+  final Tenant myTenant;
+  final Property myProperty;
+  final Received myReceived;
 
   @override
   State<HistoriesContainer> createState() => _HistoriesContainerState();
@@ -94,8 +102,8 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                             ),
                           ],
                         ),
-                        Text(
-                            "${formatDate(DateTime.now())[0]}/${formatDate(DateTime.now())[1]}/${formatDate(DateTime.now())[2]}",
+                        Text(widget.myReceived.dateReceived, 
+                            //"${formatDate(DateTime.now())[0]}/${formatDate(DateTime.now())[1]}/${formatDate(DateTime.now())[2]}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.sp,
@@ -110,13 +118,13 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                         children: [
                           SingleChildScrollView(
                               child: Text(
-                            "Adresse : Agbalépédo",
+                            "Adresse : ${widget.myProperty.propertyAddress}",
                             style: TextStyle(
                                 fontFamily: "EBGaramond",
                                 fontSize: 17.sp,
                                 fontWeight: FontWeight.bold),
                           )),
-                          Text("Loyer :    ",style: TextStyle(
+                          Text("Loyer : ${widget.myProperty.propertyCost}   ",style: TextStyle(
                                 fontFamily: "EBGaramond",
                                 fontSize: 17.sp,
                                 fontWeight: FontWeight.bold) )

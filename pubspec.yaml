@@ -90,12 +90,12 @@ flutter:
   fonts:
     - family: EBGaramond
       fonts:
-        - asset: assets/fonts/EBGaramond-VariableFont_wght.ttf
+        - asset: assets/fonts/HelveticaNeueLight.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
     - family: Pacificoo
       fonts:
-        - asset: assets/fonts/Satisfy-Regular.ttf
+        - asset: assets/fonts/HelveticaNeueLight.ttf
 
     - family: Rubik
       fonts:

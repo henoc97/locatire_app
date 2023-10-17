@@ -16,4 +16,9 @@ class UrlAdmin{
   final String queryPropertyByAdress = "article/queryPropertyByAdress.php";
   final String deleteTenant = "article/deleteTenant.php";
   final String queryPropertyTenantByTenantID = "article/queryPropertyTenantByTenantID.php";
+  final String insertNotification = "article/insertNotification.php";
+  final String queryAllNotification = "article/queryAllnotification.php";
+  final String insertSupport = "article/insertSupport.php";
+  final String queryAllSupportByTenantID = "article/queryAllSupport.php";
+  final String queryAllReceivedpayedByTenantID = "article/queryAllReceivedpayedByTenantID.php";
 }

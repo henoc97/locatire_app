@@ -70,9 +70,13 @@ class _LogState extends State<Log> {
                     myTenantList = await queryAllTenats();
                   }
                 },
+                style: TextStyle(fontWeight: FontWeight.bold,
+                    fontFamily: 'EBGaramond',
+                      color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),
                 keyboardType: TextInputType.phone,
                 controller: _numMoovController,
                 decoration: InputDecoration.collapsed(
+                  
                   hintText: "Numéro moov...",
                   hintStyle: TextStyle(fontWeight: FontWeight.bold,
                     fontFamily: 'EBGaramond',
@@ -111,6 +115,10 @@ class _LogState extends State<Log> {
                     myTenantList = await queryAllTenats();
                   }
                 },
+
+                style: TextStyle(fontWeight: FontWeight.bold,
+                    fontFamily: 'EBGaramond',
+                      color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),
                     keyboardType: TextInputType.phone,
                     controller: _numTgcelController,
                     

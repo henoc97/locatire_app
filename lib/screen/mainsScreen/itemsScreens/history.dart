@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:locataireapp/model/property.dart';
+import 'package:locataireapp/model/received.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../API_engine/received_engine/query_received.dart';
 import '../../../colors/colorsrepertory.dart';
+import '../../../model/tenant.dart';
 import '../../funcWidgetdart/History_container.dart';
 
-class History extends StatelessWidget {
-  const History({super.key});
+class History extends StatefulWidget {
+  const History({super.key, required this.myTenant, required this.myProperty});
 
+  final Tenant myTenant;
+  final Property myProperty;
+
+  @override
+  State<History> createState() => _HistoryState();
+}
+
+class _HistoryState extends State<History> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -54,14 +67,25 @@ class History extends StatelessWidget {
                     ),
                   ),
         Container(height: size.height*.56,
-          child: ListView.builder(
-                            itemCount: 10,
-                            itemBuilder: (BuildContext context, int index) {
-                              return  HistoriesContainer(clr: clr, size: size,);
-                            },
-                          ),
+          child: FutureBuilder<List<Received>>(
+            future: queryAllReceivedpayedByTenantID(widget.myTenant.tenantID.toString(), widget.myProperty.propertyID.toString()), 
+          builder: (BuildContext context, AsyncSnapshot<List<Received>> snapshot) { 
+            if (!snapshot.hasData) {
+                return Center(child:Center(child: Lottie.asset("assets/lottie/Animation_no_result.json"),));
+              }
+              return snapshot.data!.isEmpty? Center(child: Lottie.asset("assets/lottie/Animation_no_result.json"),) : 
+              ListView(
+                children: snapshot.data!.map((history) {
+                  return HistoriesContainer(clr: clr, size: size, myTenant: widget.myTenant, myProperty: widget.myProperty, myReceived: history,);
+                }).toList()
+              );
+          },
+
+          )
         ),
       ],
     );
   }
 }
+
+//HistoriesContainer(clr: clr, size: size,);

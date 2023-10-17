@@ -1,9 +1,10 @@
+import 'dart:ui';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locataireapp/API_engine/link_property_tenant.dart/query_property_tenant_by_tenant_id.dart';
-import 'package:locataireapp/API_engine/tenant_engine/query_tenant_by_id.dart';
 
 import '../../API_engine/property_engine/query_property_by_id.dart';
 import '../../colors/colorsrepertory.dart';
@@ -157,9 +158,25 @@ class _PageScrollerState extends State<PageScroller> {
 
                   Expanded(
                     child:_index==1? const Calendar() : 
-                    _index==2? const History():
-                    _index==3?const SupportClient() : _index==4?
-                  Paiement(myTenant: widget.myTenant, myProperty: myProperty!,) : Container()
+                    _index==2?  History(myTenant: widget.myTenant, myProperty: myProperty ?? Property(0, "0", "0", "0"),):
+                    _index==3? SupportClient(myTenant: widget.myTenant) : _index==4?
+                  Paiement(myTenant: widget.myTenant, myProperty: myProperty ?? Property(0, "0", "0", "0"),) : 
+                  ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(height: size.height*.12,width: size.width*8,
+                          decoration:BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.black.withOpacity(0.2)),
+                          child: SingleChildScrollView(child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text("data"),
+                          )),
+                          ),
+                      );
+                    },
+                  ),
+                  
                   ),
         ],
       ),
