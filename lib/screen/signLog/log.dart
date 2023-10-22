@@ -59,7 +59,7 @@ class _LogState extends State<Log> {
                 border: Border.all(
                     color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                 color: clr["container"]?.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(15)),
+                borderRadius: BorderRadius.circular(10)),
             child: Container(
               margin: const EdgeInsets.only(top: 13, left: 13),
               child: TextFormField(
@@ -100,7 +100,7 @@ class _LogState extends State<Log> {
                 border: Border.all(
                     color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                 color: clr["container"]?.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(15)),
+                borderRadius: BorderRadius.circular(10)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -195,7 +195,7 @@ class _LogState extends State<Log> {
                 height: 50.h,
                 decoration: BoxDecoration(
                   color: clr["blue"],
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
                     child: Text("Log in ",

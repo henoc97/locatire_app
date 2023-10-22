@@ -21,6 +21,38 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+
+  List<Received> allReceivedpayedByTenantIDList = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    allReceivedpayedByTenantID();
+  }
+
+
+  void allReceivedpayedByTenantID()async {
+    for (int i = 0; i <3 ; i++) {
+      if (i==0) {
+        allReceivedpayedByTenantIDList = await queryAllReceivedpayedByTenantID(widget.myTenant.tenantID.toString(), widget.myProperty.propertyID.toString());
+      setState(() {
+        allReceivedpayedByTenantIDList;
+      });
+      } else {
+        await Future.delayed(const Duration(seconds: 3));
+      allReceivedpayedByTenantIDList = await queryAllReceivedpayedByTenantID(widget.myTenant.tenantID.toString(), widget.myProperty.propertyID.toString());
+      setState(() {
+        allReceivedpayedByTenantIDList;
+      });
+      }
+      print('ok');
+      if (i == 2) {
+        i = 1;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -38,7 +70,7 @@ class _HistoryState extends State<History> {
                               width: 1.5,
                               style: BorderStyle.solid),
                           color: clr["container"]?.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(15)),
+                          borderRadius: BorderRadius.circular(10)),
                       height: size.height * .06.h,
                       width: size.width * .8.w,
                       child: Row(
@@ -57,7 +89,7 @@ class _HistoryState extends State<History> {
                               width: size.width * .18.w,
                               decoration: BoxDecoration(
                                   color: clr["blue"],
-                                  borderRadius: BorderRadius.circular(15)),
+                                  borderRadius: BorderRadius.circular(10)),
                               child: Icon(
                                 Icons.search,
                                 size: 30.sp,
@@ -69,7 +101,7 @@ class _HistoryState extends State<History> {
                   ),
         Container(height: size.height*.56,
           child: FutureBuilder<List<Received>>(
-            future: queryAllReceivedpayedByTenantID(widget.myTenant.tenantID.toString(), widget.myProperty.propertyID.toString()), 
+            future: Future.value(allReceivedpayedByTenantIDList.reversed.toList()), 
           builder: (BuildContext context, AsyncSnapshot<List<Received>> snapshot) { 
             if (!snapshot.hasData) {
                 return Center(child:Center(child: Lottie.asset("assets/lottie/Animation_no_result.json"),));
@@ -79,6 +111,7 @@ class _HistoryState extends State<History> {
                 children: snapshot.data!.map((history) {
                   return GestureDetector(
                     onTap: () {
+                      print("isPress");
                   Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___)=>Scaffold(body: SafeArea(
                     child: Container( margin: const EdgeInsets.only(top: 50),
                       child: Center(child: MyPdfPage(myTenant : widget.myTenant, myProperty: widget.myProperty, received: history,))),
