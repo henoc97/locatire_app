@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../model/int_recieved_from_api.dart';
@@ -9,7 +10,7 @@ import '../url_admin.dart';
 
 
 
-Future<int?> insertNotification(String tenantID, String propertyID, String message, String monthPayed, String notificationDate)async{
+Future<int?> insertNotification(String tenantID, String propertyID, String message, String sumPayed, String typeReceived, String monthPayed, String notificationDate)async{
     Uri uri = Uri.parse(UrlAdmin().serverUrl + UrlAdmin().insertNotification);
     ConvertInIntFromApi? isDone;
     
@@ -18,6 +19,8 @@ Future<int?> insertNotification(String tenantID, String propertyID, String messa
       'tenantID' : tenantID,
       'propertyID' : propertyID,
       'message' : message,
+      'sumPayed' : sumPayed,
+      'typeReceived' : typeReceived,
       'monthPayed' : monthPayed,
       'notificationDate' : notificationDate
     });

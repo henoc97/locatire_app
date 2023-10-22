@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:locataireapp/screen/mainsScreen/itemsScreens/payment_folder/ussd_controller.dart';
 
 import '../../../API_engine/notification_engine/insert_notification.dart';
 import '../../../colors/colorsrepertory.dart';
@@ -23,7 +22,9 @@ class _PaiementState extends State<Paiement> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _secretCodeController = TextEditingController();
+  final TextEditingController _monthPayedCodeController = TextEditingController();
   String get secretCodeController => _secretCodeController.text;
+  String get monthPayedCodeController => _monthPayedCodeController.text;
 
   bool isFlooz = false;
   bool isTmoney = false;
@@ -44,7 +45,7 @@ class _PaiementState extends State<Paiement> {
             children: [
               SizedBox(
                 child: Container( 
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), 
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), 
                 gradient: LinearGradient(begin: Alignment.topLeft,end: Alignment.bottomRight,
                 colors: [clr["container"]!,  clr["blue"]!, clr["blackBlue"]!.withOpacity(0.8),])
                 ),
@@ -57,7 +58,7 @@ class _PaiementState extends State<Paiement> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text("Réseaux de transfère", style: TextStyle(fontFamily: "EBGaramond",
-                        fontSize: 22.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold
                         ),),
                         ),
@@ -87,7 +88,7 @@ class _PaiementState extends State<Paiement> {
                         children: [
                           Text("${widget.myProperty.propertyCost} francs cfa", 
                           style: TextStyle(fontFamily: "EBGaramond",
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold
                         ),),
                         ],
@@ -98,7 +99,7 @@ class _PaiementState extends State<Paiement> {
                       children: [
                         Text('${widget.myTenant.tenantContact1} / ${widget.myTenant.tenantContact2}', 
                         style: TextStyle(fontFamily: "EBGaramond",
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold
                         ),),
                       ],
@@ -110,20 +111,20 @@ class _PaiementState extends State<Paiement> {
               ),
             
               Container(margin: const EdgeInsets.only(top: 20),
-                width: 308.w,
-                height: 48.h,
+                width: 305.w,
+                height: 40.h,
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                     color: clr["container"]?.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(8)),
                 child: Row(mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Center(
                       child: Text("  ${widget.myTenant.tenantName}  ${widget.myTenant.tenantLastName}",
                           style: TextStyle(fontFamily: "EBGaramond",
                             fontWeight: FontWeight.bold,
-                              color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),)
+                              color: clr["black"]?.withOpacity(0.7), fontSize: 16.sp),)
                     ),
                   ],
                 ),
@@ -133,44 +134,44 @@ class _PaiementState extends State<Paiement> {
                 children: [
                   Container(margin: const EdgeInsets.only(top: 10),
                     width: 140.w,
-                    height: 48.h,
+                    height: 40.h,
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                         color: clr["container"]?.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       child:Container(
                         margin: const EdgeInsets.only(left: 8),
                         width: 130.w,
-                        child: Text("Loc : ${widget.myProperty.propertyAddress} ",
+                        child: Text("${widget.myProperty.propertyAddress} ",
                             style: TextStyle(fontFamily: "EBGaramond",
                               fontWeight: FontWeight.bold,
-                                color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),),
+                                color: clr["black"]?.withOpacity(0.7), fontSize: 16.sp),),
                       )
                     ),
                   ),
         
                   Container(margin: const EdgeInsets.only(top: 10),
                     width: 140.w,
-                    height: 48.h,
+                    height: 40.h,
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                         color: clr["container"]?.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(8)),
                     child: Container(
                       margin: const EdgeInsets.only(top: 13, left: 13),
                       child: TextFormField(
                         style: TextStyle(fontFamily: "EBGaramond",
-                        fontWeight: FontWeight.bold, fontSize: 18.sp),
+                        fontWeight: FontWeight.bold, fontSize: 16.sp),
                         controller: _secretCodeController,
                         decoration: InputDecoration.collapsed(
                           
                           hintText: "Votre code secret",
                           hintStyle: TextStyle(fontFamily: "EBGaramond",
                             fontWeight: FontWeight.bold,
-                              color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),
+                              color: clr["black"]?.withOpacity(0.7), fontSize: 16.sp),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -234,24 +235,65 @@ class _PaiementState extends State<Paiement> {
                 ],
               ),
           
-              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Container(margin: const EdgeInsets.only(top: 10),
+                  Column(
+                    children: [
+                      Text("Le mois à payer : ", style: TextStyle(fontFamily: "EBGaramond",
+                            fontWeight: FontWeight.bold, fontSize: 16.sp),),
+                      Container(margin: const EdgeInsets.only(top: 10),
+                        width: 100.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
+                            color: clr["container"]?.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 13, left: 13),
+                          child: TextFormField(
+                            keyboardType: TextInputType.datetime,
+                            style: TextStyle(fontFamily: "EBGaramond",
+                            fontWeight: FontWeight.bold, fontSize: 16.sp),
+                            controller: _monthPayedCodeController,
+                            decoration: InputDecoration.collapsed(
+                              
+                              hintText: "mm/aaaa",
+                              hintStyle: TextStyle(fontFamily: "EBGaramond",
+                                fontWeight: FontWeight.bold,
+                                  color: clr["black"]?.withOpacity(0.7), fontSize: 16.sp),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty || value.split('/')[0].length!=2 || 
+                              value.split('/')[1].length!=4 || int.parse(value.split('/')[0]) <0 ||
+                              int.parse(value.split('/')[0])>13 || int.parse(value.split('/')[1])<1999
+                              ) {
+                                return 'Veuillez entrer une bonne date mm/aaaa';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  /*Container(margin: const EdgeInsets.only(top: 10),
                     width: 125.w,
-                    height: 48.h,
+                    height: 40.h,
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: clr["blue"]!, width: 1.0, style: BorderStyle.solid),
                         color: clr["container"]?.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(8)),
                     child: Center(
                       
-                      child: Text("${formatDate(DateTime.now())[0]} / ${formatDate(DateTime.now())[1]} / ${formatDate(DateTime.now())[2]}",
+                      child: Text( 
+                        "${formatDate(DateTime.now())[0]} / ${formatDate(DateTime.now())[1]} / ${formatDate(DateTime.now())[2]}",
                           style: TextStyle(fontFamily: "EBGaramond",
                         fontWeight: FontWeight.bold,
-                              color: clr["black"]?.withOpacity(0.7), fontSize: 18.sp),)
+                              color: clr["black"]?.withOpacity(0.7), fontSize: 16.sp),)
                     ),
-                  ),
+                  ),*/
                   Column(
                     children: [
                       Row(
@@ -263,7 +305,7 @@ class _PaiementState extends State<Paiement> {
                           });
                         },),
                         Text("     FLOOZ", style : TextStyle(fontFamily: "EBGaramond",
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.bold
                             ),),
                       ],
@@ -277,7 +319,7 @@ class _PaiementState extends State<Paiement> {
                       });
                     },),
                     Text("TMONEY", style : TextStyle(fontFamily: "EBGaramond",
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold
                         ),),
                   ],
@@ -296,10 +338,10 @@ class _PaiementState extends State<Paiement> {
                 //mnc:  await USSDController.getSimMNC(isFlooz==true? "MOOV" :isFlooz==true? "TOGOCEL" : "") );
             
                 //await Future.delayed(const Duration(seconds: 20));
-                
+                print(monthPayedCodeController);
                 int? i = await insertNotification("${widget.myTenant.tenantID}", "${widget.myProperty.propertyID}",
                 "Adresse : ${widget.myProperty.propertyAddress}, Mr ou Mme ${widget.myTenant.tenantName} ${widget.myTenant.tenantLastName}, vient de faire un paiement ${isLoyer? 'de loyer' : isAvance? "d' avance" : ''} par ${isFlooz? 'Flooz':'TMoney'}",// ${widget.myTenant.tenantName}  ${widget.myTenant.tenantLastName}, locataire d'adresse ${widget.myProperty.propertyAddress}, viens d'opérer un paiement " "${isLoyer? "de loyer" : isAvance? "d' avance" : ""} par ${isFlooz? "Flooz":"TMoney"}",
-                "10/2023",
+                widget.myProperty.propertyCost ,isLoyer?"Loyer" : isAvance? "Avance" : "Autre", monthPayedCodeController,
                 "${formatDate(DateTime.now())[0]} / ${formatDate(DateTime.now())[1]} /${formatDate(DateTime.now())[2]}");
                 print("i : $i");
                   } else{
@@ -308,16 +350,16 @@ class _PaiementState extends State<Paiement> {
                   
                 },
                 child: Container(
-                  width: 250.w,
+                  width: 200.w,
                   height: 40.h,
                   decoration: BoxDecoration(
                     color: clr["blue"],
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                       child: Text("Valider le Paiement",
                           style:TextStyle(fontFamily: "EBGaramond",
-                              fontSize: 24.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                               color: clr["wWrite"])))),
               ),

@@ -91,7 +91,7 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Text(
-                                  "AMAVIGAN Hénoc",
+                                  "${widget.myTenant.tenantName} ${widget.myTenant.tenantLastName}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontFamily: "EBGaramond",

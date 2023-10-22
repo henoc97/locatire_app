@@ -147,7 +147,7 @@ class _PageScrollerState extends State<PageScroller> {
                 SizedBox( width: size.width*.9,
                   child: Text(itemsDescription[_index], 
                 style: TextStyle(fontFamily: "EBGaramond",
-                fontSize: 22.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.bold
                 ),
                 
@@ -168,8 +168,8 @@ class _PageScrollerState extends State<PageScroller> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(height: size.height*.12,width: size.width*8,
                           decoration:BoxDecoration(borderRadius: BorderRadius.circular(15), color: Colors.black.withOpacity(0.2)),
-                          child: SingleChildScrollView(child: Padding(
-                            padding: const EdgeInsets.all(5.0),
+                          child: const SingleChildScrollView(child: Padding(
+                            padding: EdgeInsets.all(5.0),
                             child: Text("data"),
                           )),
                           ),

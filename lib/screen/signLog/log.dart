@@ -6,7 +6,6 @@ import 'package:locataireapp/model/tenant.dart';
 import 'package:locataireapp/screen/mainsScreen/page_scroller.dart';
 
 import '../../colors/colorsrepertory.dart';
-import '../../service/cubit/sign_log_cubit.dart';
 
 class Log extends StatefulWidget {
   const Log({super.key});
@@ -66,9 +65,9 @@ class _LogState extends State<Log> {
               child: TextFormField(
                 onTap: () async {
                   isAllTenant++;
-                  if(isAllTenant == 1){
+                  //if(isAllTenant == 1){
                     myTenantList = await queryAllTenats();
-                  }
+                  //}
                 },
                 style: TextStyle(fontWeight: FontWeight.bold,
                     fontFamily: 'EBGaramond',
@@ -172,11 +171,11 @@ class _LogState extends State<Log> {
               print("ontap");
               try {
                 if(_formKey.currentState!.validate() && myTenantList.isNotEmpty){
-                myTenantList.forEach((element) {
+                for (var element in myTenantList) {
                   if(element!.tenantContact1 == numMoovController  || element.tenantContact2 == numTgcelController){
                     myTenant = element;
                     }
-                });
+                }
                 
               } 
               } catch (e) {

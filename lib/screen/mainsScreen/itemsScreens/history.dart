@@ -8,6 +8,7 @@ import '../../../API_engine/received_engine/query_received.dart';
 import '../../../colors/colorsrepertory.dart';
 import '../../../model/tenant.dart';
 import '../../funcWidgetdart/History_container.dart';
+import '../../funcWidgetdart/my_pdf_page.dart';
 
 class History extends StatefulWidget {
   const History({super.key, required this.myTenant, required this.myProperty});
@@ -76,7 +77,14 @@ class _HistoryState extends State<History> {
               return snapshot.data!.isEmpty? Center(child: Lottie.asset("assets/lottie/Animation_no_result.json"),) : 
               ListView(
                 children: snapshot.data!.map((history) {
-                  return HistoriesContainer(clr: clr, size: size, myTenant: widget.myTenant, myProperty: widget.myProperty, myReceived: history,);
+                  return GestureDetector(
+                    onTap: () {
+                  Navigator.push(context, PageRouteBuilder(pageBuilder: (_,__,___)=>Scaffold(body: SafeArea(
+                    child: Container( margin: const EdgeInsets.only(top: 50),
+                      child: Center(child: MyPdfPage(myTenant : widget.myTenant, myProperty: widget.myProperty, received: history,))),
+                  ),)));
+                },
+                    child: HistoriesContainer(clr: clr, size: size, myTenant: widget.myTenant, myProperty: widget.myProperty, myReceived: history,));
                 }).toList()
               );
           },
