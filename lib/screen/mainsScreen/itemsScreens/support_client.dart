@@ -80,7 +80,7 @@ class _SupportClientState extends State<SupportClient> {
                   child: Container(
                     width: discussion.message.length>30 ? size.width*.8: size.width*.6,
                     decoration: BoxDecoration(color: discussion.source=="1"? Colors.white : clr['blue']!.withOpacity(1),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.only(topRight: discussion.source=="1"? const Radius.circular(10) : const Radius.circular(0) , topLeft: discussion.source=="1"? const Radius.circular(0) : const Radius.circular(10), bottomLeft: const Radius.circular(10), bottomRight: const Radius.circular(10)),
                       border: Border.all(color: clr["blue"]!)),
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),

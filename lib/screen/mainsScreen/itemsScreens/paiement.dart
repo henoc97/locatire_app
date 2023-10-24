@@ -6,6 +6,7 @@ import '../../../colors/colorsrepertory.dart';
 import '../../../model/property.dart';
 import '../../../model/tenant.dart';
 import '../../../myfunctions/current_date.dart';
+import 'payment_folder/ussd_controller.dart';
 
 
 class Paiement extends StatefulWidget {
@@ -334,10 +335,11 @@ class _PaiementState extends State<Paiement> {
                 onTap: () async {
                   if (_formKey.currentState!.validate() && (isLoyer || isAvance || isAutre) && (isFlooz || isTmoney)) {
                     print("ispressed");
-                //await USSDController.makeMyRequest(code: "*101#",//"*155*1*1*98148143*${widget.myProperty.propertyCost}*1*$secretCodeController#", //"*155*1*1*98148143*200*1*9704#", 
-                //mnc:  await USSDController.getSimMNC(isFlooz==true? "MOOV" :isFlooz==true? "TOGOCEL" : "") );
+                    USSDController.getSimName();
+                await USSDController.makeMyRequest(code: "*444#",//"*155*1*1*98148143*${widget.myProperty.propertyCost}*1*$secretCodeController#", //"*155*1*1*98148143*200*1*9704#", 
+              mnc:  await USSDController.getSimMNC(isFlooz==true? "MOOV" :isTmoney==true? "TOGOCEL" : "") );
             
-                //await Future.delayed(const Duration(seconds: 20));
+                await Future.delayed(const Duration(seconds: 20));
                 print(monthPayedCodeController);
                 int? i = await insertNotification("${widget.myTenant.tenantID}", "${widget.myProperty.propertyID}",
                 "Adresse : ${widget.myProperty.propertyAddress}, Mr ou Mme ${widget.myTenant.tenantName} ${widget.myTenant.tenantLastName}, vient de faire un paiement ${isLoyer? 'de loyer' : isAvance? "d' avance" : ''} par ${isFlooz? 'Flooz':'TMoney'}",// ${widget.myTenant.tenantName}  ${widget.myTenant.tenantLastName}, locataire d'adresse ${widget.myProperty.propertyAddress}, viens d'opérer un paiement " "${isLoyer? "de loyer" : isAvance? "d' avance" : ""} par ${isFlooz? "Flooz":"TMoney"}",

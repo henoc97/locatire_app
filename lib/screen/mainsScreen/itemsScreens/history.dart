@@ -34,6 +34,7 @@ class _HistoryState extends State<History> {
 
   void allReceivedpayedByTenantID()async {
     for (int i = 0; i <3 ; i++) {
+      print('j y suis');
       if (i==0) {
         allReceivedpayedByTenantIDList = await queryAllReceivedpayedByTenantID(widget.myTenant.tenantID.toString(), widget.myProperty.propertyID.toString());
       setState(() {

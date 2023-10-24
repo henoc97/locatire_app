@@ -16,16 +16,20 @@ class USSDController {
 
       if (sim0.subscriptionId == 0) {
         sus0 = sim0.subscriptionId + 1;
+      }else{
+        sus0 = sim0.subscriptionId;
       }
 
       if (sim1.subscriptionId == 0) {
         sus1 = sim1.subscriptionId + 1;
+      }else{
+        sus1 = sim1.subscriptionId;
       }
 
       if (sim0.mnc == mnc) {
         return sus0;
       } else if (sim1.mnc == mnc) {
-        return sus0;
+        return sus1;
       } else {
         return -3;
       }
@@ -83,8 +87,9 @@ class USSDController {
         }
 
         int mnc = simSelected!.mnc;
-
+        print("mnc : $mnc");
         return mnc;
+        
       } else {
         int mnc = -10;
         return mnc;
@@ -96,6 +101,10 @@ class USSDController {
 
   static Future<void> getSimName() async {
     SimData simData = await SimDataPlugin.getSimData();
-    print(simData.cards[0].displayName);
+    for (var element in simData.cards) {
+      print(element.displayName);
+      print("object");
+    }
+    
   }
 }

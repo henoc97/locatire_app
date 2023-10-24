@@ -20,7 +20,8 @@ Future<List<Received>> queryAllReceivedpayedByTenantID(String idTenant, String i
     print("response.statusCode : ${response.statusCode}");
     
       
-    if(response.statusCode==200){
+    try {
+      if(response.statusCode==200){
       var data = jsonDecode(response.body) ;
       print("Receivedpayed : $data");
       //print("data : ${data[2]["Address_property"]}");
@@ -29,7 +30,10 @@ Future<List<Received>> queryAllReceivedpayedByTenantID(String idTenant, String i
         myReceived.add(Received.fromMapDBonline(map));
       }
       //print("Receivedpayed : $myProperties");
-    } 
+    }  
+    } catch (e) {
+      print(e); 
+    }
   
   return myReceived;
 }

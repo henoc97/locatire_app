@@ -45,6 +45,25 @@ class _LogState extends State<Log> {
   int pwdVisibity = 1;
 
   @override
+  void initState() {
+    super.initState();
+    allTenantFunc();
+  }
+
+  void allTenantFunc() async {
+    print("i can");
+    while (_myTenantList.isEmpty) {
+      myTenantList = await queryAllTenats();
+      print(myTenantList);
+    }
+  }
+
+
+
+
+
+            
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     Map<String, Color> clr = ColorsRepertory().colorApp;
@@ -64,10 +83,10 @@ class _LogState extends State<Log> {
               margin: const EdgeInsets.only(top: 13, left: 13),
               child: TextFormField(
                 onTap: () async {
-                  isAllTenant++;
-                  //if(isAllTenant == 1){
+                  
                     myTenantList = await queryAllTenats();
-                  //}
+                  
+                  allTenantFunc();
                 },
                 style: TextStyle(fontWeight: FontWeight.bold,
                     fontFamily: 'EBGaramond',
@@ -108,11 +127,8 @@ class _LogState extends State<Log> {
                   margin: const EdgeInsets.only(top: 13, left: 13),
                   width: 220.w,
                   child: TextFormField(
-                    onTap: () async {
-                  isAllTenant++;
-                  if(isAllTenant == 1){
-                    myTenantList = await queryAllTenats();
-                  }
+                    onTap: () {
+                  allTenantFunc();
                 },
 
                 style: TextStyle(fontWeight: FontWeight.bold,
@@ -171,6 +187,7 @@ class _LogState extends State<Log> {
               print("ontap");
               try {
                 if(_formKey.currentState!.validate() && myTenantList.isNotEmpty){
+                  print("wesh");
                 for (var element in myTenantList) {
                   if(element!.tenantContact1 == numMoovController  || element.tenantContact2 == numTgcelController){
                     myTenant = element;

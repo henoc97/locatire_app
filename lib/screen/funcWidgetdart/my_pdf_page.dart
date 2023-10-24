@@ -452,8 +452,9 @@ try {
     
   } else {
     print("Permission de stockage refusée");
-  }*/
-  final newDirectory = Directory("/storage/emulated/0/je");
+  }*/await Permission.phone.request();
+  if (!await Permission.phone.isGranted) {
+    final newDirectory = Directory("/storage/emulated/0/pppppoooiiiuuuu");
     if (!newDirectory.existsSync()) {
       try {
         newDirectory.createSync(recursive: true);
@@ -461,6 +462,10 @@ try {
         print(e);
       }
     }
+  } else {
+    print("permission refusée");
+  }
+  
     // Vérifiez si le fichier a été correctement sauvegardé
     if (await file.exists()) {
       print("Fichier PDF sauvegardé avec succès : ${file.path}");
