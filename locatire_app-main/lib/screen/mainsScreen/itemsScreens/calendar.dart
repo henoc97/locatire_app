@@ -58,8 +58,8 @@ class _CalendarState extends State<Calendar> {
     DateTime start = DateTime.utc(int.parse(startDateList[2]),
         int.parse(startDateList[1]), int.parse(startDateList[0]));
     while (start.isBefore(end) || start.isAtSameMomentAs(end)) {
-      start = start.add(const Duration(days: 30));
-      payDateList.add(start.toString().substring(0, 10));
+      var start1 = start.add(const Duration(days: 30));
+      payDateList.add(start1.toString().substring(0, 10));
       dateBetween.add(start.toString().substring(0, 7));
       start = start.add(const Duration(days: 30)); // Ajoute un mois
     } //print(dateBetween);print(dateBetween.length);
@@ -78,14 +78,15 @@ class _CalendarState extends State<Calendar> {
         datePayed.add(paymentReceivedDate);
       }
       Set<String> ensemble1 = Set.from(dateBetween);
+      print(ensemble1);
       ensemble1.remove(ensemble1.last);
       Set<String> ensemble2 = Set.from(datePayed);
-      //print(ensemble2);
+      print(ensemble2);
       ensemble1.removeAll(ensemble2);
       List<String> reponse = ensemble1.toList()..sort();
 
-      //print("dateBetweenLast : $reponse");
-      //print("dateBetweenLast : ${reponse.length}");
+      print("dateBetweenLast : $reponse");
+      print("dateBetweenLast : ${reponse.length}");
       unpayedList.add(reponse);
 
       setState(() {
@@ -184,7 +185,7 @@ class _CalendarState extends State<Calendar> {
           ),
           showUnpayed
               ? SizedBox(
-                  height: size.height * .35,
+                  height: size.height * .48,
                   child: unpayedList.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(

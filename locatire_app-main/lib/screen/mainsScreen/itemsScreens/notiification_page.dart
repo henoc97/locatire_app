@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:locataireapp/API_engine/notification_engine/delete_notification.dart';
 import 'package:locataireapp/API_engine/notification_engine/query_notification_by_tenant_id.dart';
 
 import '../../../colors/colorsrepertory.dart';
@@ -40,6 +43,7 @@ class _NotificationPageState extends State<NotificationPage> {
       if (i == 0) {
         notificationList = await queryAllNotificationByTenantID(
             widget.myTenant.tenantID.toString());
+
         setState(() {
           notificationList;
         });
@@ -47,6 +51,7 @@ class _NotificationPageState extends State<NotificationPage> {
         await Future.delayed(const Duration(seconds: 3));
         notificationList = await queryAllNotificationByTenantID(
             widget.myTenant.tenantID.toString());
+
         setState(() {
           notificationList;
         });
@@ -95,36 +100,59 @@ class _NotificationPageState extends State<NotificationPage> {
                       children: snapshot.data!.map((notification) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          child: Container(
-                            //height: size.height*.17,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: clr["blue"]!)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Text(notification.notifDate,
-                                            style: TextStyle(
-                                              fontFamily: "EBGaramond",
-                                              fontSize: 15.sp,
-                                              color: clr["blue"],
-                                              fontWeight: FontWeight.bold,
-                                            ))
-                                      ],
-                                    ),
-                                    Text(notification.notifMessage,
-                                        style: TextStyle(
-                                          fontFamily: "EBGaramond",
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.bold,
-                                        )),
-                                  ],
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Slidable(
+                            startActionPane: ActionPane(
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      print(
+                                          "ok : ${notification.notificationID.toString()}");
+                                      deleteNotification(notification
+                                          .notificationID
+                                          .toString());
+                                    },
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: const Color(0xFFFE4A49),
+                                    icon: FontAwesomeIcons.trashCan,
+                                    label: 'Supprimer',
+                                  ),
+                                ]),
+                            child: Container(
+                              //height: size.height*.17,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: clr["blue"]!)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(notification.notifDate,
+                                              style: TextStyle(
+                                                fontFamily: "EBGaramond",
+                                                fontSize: 15.sp,
+                                                color: clr["blue"],
+                                                fontWeight: FontWeight.bold,
+                                              ))
+                                        ],
+                                      ),
+                                      Text(notification.notifMessage,
+                                          style: TextStyle(
+                                            fontFamily: "EBGaramond",
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                          )),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

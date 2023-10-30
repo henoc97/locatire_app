@@ -6,17 +6,13 @@ import '../../model/received.dart';
 import '../../model/tenant.dart';
 import '../../myfunctions/current_date.dart';
 
-
-
-
-
 class HistoriesContainer extends StatefulWidget {
   const HistoriesContainer({
     super.key,
     required this.clr,
-    required this.size, 
-    required this.myTenant, 
-    required this.myProperty, 
+    required this.size,
+    required this.myTenant,
+    required this.myProperty,
     required this.myReceived,
   });
 
@@ -76,8 +72,7 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                         ),
                       ),
                       Container(
-                        margin:
-                            const EdgeInsets.only(left: 10, right: 10),
+                        margin: const EdgeInsets.only(left: 10, right: 10),
                         width: widget.size.width * .37.w,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
@@ -93,7 +88,7 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                       ),
                     ],
                   ),
-                  Text(widget.myReceived.dateReceived, 
+                  Text(widget.myReceived.dateReceived,
                       //"${formatDate(DateTime.now())[0]}/${formatDate(DateTime.now())[1]}/${formatDate(DateTime.now())[2]}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -115,10 +110,11 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
                           fontSize: 17.sp,
                           fontWeight: FontWeight.bold),
                     )),
-                    Text("Loyer : ${widget.myProperty.propertyCost}   ",style: TextStyle(
-                          fontFamily: "EBGaramond",
-                          fontSize: 17.sp,
-                          fontWeight: FontWeight.bold) )
+                    Text("Loyer : ${widget.myProperty.propertyCost}   ",
+                        style: TextStyle(
+                            fontFamily: "EBGaramond",
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold))
                     //
                   ],
                 ),
@@ -128,5 +124,5 @@ class _HistoriesContainerState extends State<HistoriesContainer> {
         ),
       ),
     );
-      }
   }
+}

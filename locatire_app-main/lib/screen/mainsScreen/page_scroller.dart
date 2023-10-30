@@ -11,6 +11,7 @@ import 'package:locataireapp/service/bloc/tenant_upate_bloc.dart';
 import 'package:locataireapp/service/bloc/update_picture_bloc.dart';
 import 'package:open_file/open_file.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../API_engine/property_engine/query_property_by_id.dart';
 import '../../colors/colorsrepertory.dart';
@@ -43,11 +44,11 @@ class _PageScrollerState extends State<PageScroller> {
     "Paiement"
   ];
   List<String> itemsDescription = [
-    "Notifications et envoie des rappels du paiement de loyer",
-    "Dates d'échéance des paiements de loyer",
-    "Détail sur tous les paiements de loyer passés",
-    "En cas de questions ou de problèmes, contactez nous",
-    "Procédure de paiement par flooz ou TMoney"
+    "Notifications et rappels paiement loyer.",
+    "Dates d'échéance des paiements de loyer.",
+    "Détails des paiements des loyers antérieurs.",
+    "Pour toute préoccupation, contactez-nous.",
+    "Procédure de paiement par flooz ou TMoney."
   ];
 
   int _index = 2;
@@ -73,6 +74,22 @@ class _PageScrollerState extends State<PageScroller> {
   set showDrawer(bool value) {
     setState(() {
       _showDrawer = value;
+    });
+  }
+
+  bool _showStorage = false;
+  bool get showStorage => _showStorage;
+  set showStorage(bool value) {
+    setState(() {
+      _showStorage = value;
+    });
+  }
+
+  Directory? _output = Directory("path");
+  Directory? get output => _output;
+  set output(Directory? value) {
+    setState(() {
+      _output = value;
     });
   }
 
@@ -243,8 +260,12 @@ class _PageScrollerState extends State<PageScroller> {
                             child: Card(
                               color: Colors.white,
                               child: SizedBox(
-                                height: size.height * .2,
-                                width: size.width * .5,
+                                height: showStorage
+                                    ? size.height * .27
+                                    : size.height * .2,
+                                width: showStorage
+                                    ? size.width * .63
+                                    : size.width * .55,
                                 child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -252,23 +273,52 @@ class _PageScrollerState extends State<PageScroller> {
                                       Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: GestureDetector(
-                                          onTap: () {
-                                            openFileManager();
-                                            print("ok");
+                                          onTap: () async {
+                                            output =
+                                                await getDownloadsDirectory();
+                                            print(output!.path);
+                                            showStorage = !showStorage;
                                           },
-                                          child: Row(
+                                          child: Column(
                                             children: [
-                                              FaIcon(
-                                                FontAwesomeIcons.receipt,
-                                                color: clr["blue"],
+                                              Row(
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.receipt,
+                                                    color: clr["blue"],
+                                                  ),
+                                                  Text(
+                                                    "    Tous mes reçus",
+                                                    style: TextStyle(
+                                                      fontFamily: "EBGaramond",
+                                                      fontSize: 16.sp,
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: FaIcon(
+                                                      !showStorage
+                                                          ? FontAwesomeIcons
+                                                              .angleDown
+                                                          : FontAwesomeIcons
+                                                              .angleUp,
+                                                      size: 20.sp,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              Text(
-                                                "    Tous mes reçus",
-                                                style: TextStyle(
-                                                  fontFamily: "EBGaramond",
-                                                  fontSize: 16.sp,
-                                                ),
-                                              )
+                                              showStorage
+                                                  ? Text(
+                                                      "${output!.path}",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            "EBGaramond",
+                                                        fontSize: 13.sp,
+                                                      ),
+                                                    )
+                                                  : Container()
                                             ],
                                           ),
                                         ),

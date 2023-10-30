@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:locataireapp/API_engine/support_engine/insert_support.dart';
 import 'package:locataireapp/API_engine/support_engine/query_support_by_id.dart';
@@ -34,22 +35,6 @@ class _SupportClientState extends State<SupportClient> {
     });
   }
 
-  List<SupportClientM> _deleteDiscussionList = [];
-  List<SupportClientM> get deleteDiscussionList => _deleteDiscussionList;
-  set deleteDiscussionList(List<SupportClientM> value) {
-    setState(() {
-      _deleteDiscussionList = value;
-    });
-  }
-
-  bool _isSelected = false;
-  bool get isSelected => _isSelected;
-  set isSelected(bool value) {
-    setState(() {
-      _isSelected = value;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -59,8 +44,11 @@ class _SupportClientState extends State<SupportClient> {
   void starNotificationSync() async {
     for (int i = 0; i < 2; i++) {
       await Future.delayed(const Duration(seconds: 3));
-      discussionList =
+      var discussionList1 =
           await queryAllSupportClientM(widget.myTenant.tenantID.toString());
+      if (discussionList1.isNotEmpty) {
+        discussionList = discussionList1;
+      }
       print('ok');
       if (i == 1) {
         i = 0;
@@ -74,31 +62,6 @@ class _SupportClientState extends State<SupportClient> {
     Map<String, Color> clr = ColorsRepertory().colorApp;
     return Column(
       children: [
-        deleteDiscussionList.isEmpty
-            ? Container()
-            : Padding(
-                padding: const EdgeInsets.all(3.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () async {
-                          var deleteDiscussionListCopy = deleteDiscussionList;
-                          deleteDiscussionList = [];
-
-                          for (var element in deleteDiscussionListCopy) {
-                            int? i = await deleteSupport(
-                                element.supportID.toString());
-                            while (i == 1) {
-                              i = await deleteSupport(
-                                  element.supportID.toString());
-                            }
-                          }
-                        },
-                        icon: const FaIcon(FontAwesomeIcons.trashCan))
-                  ],
-                ),
-              ),
         Expanded(
           child: FutureBuilder<List<SupportClientM>>(
               future: Future.value(discussionList),
@@ -118,11 +81,23 @@ class _SupportClientState extends State<SupportClient> {
                       )
                     : ListView(
                         children: snapshot.data!.map((discussion) {
-                        return GestureDetector(
-                          onLongPress: () {
-                            _deleteDiscussionList.add(discussion);
-                            isSelected = !isSelected;
-                          },
+                        return Slidable(
+                          startActionPane: ActionPane(
+                              motion: const DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    print(
+                                        "ok : ${discussion.supportID.toString()}");
+                                    deleteSupport(
+                                        discussion.supportID.toString());
+                                  },
+                                  backgroundColor: Colors.transparent,
+                                  foregroundColor: const Color(0xFFFE4A49),
+                                  icon: FontAwesomeIcons.trashCan,
+                                  label: 'Supprimer',
+                                ),
+                              ]),
                           child: Row(
                             mainAxisAlignment: discussion.source == "1"
                                 ? MainAxisAlignment.start
@@ -130,94 +105,76 @@ class _SupportClientState extends State<SupportClient> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    isSelected
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Icon(
-                                              Icons.circle,
-                                              color: clr['blue'],
-                                            ),
-                                          )
-                                        : Container(),
-                                    Container(
-                                      width: discussion.message.length > 30
-                                          ? size.width * .8
-                                          : size.width * .6,
-                                      decoration: BoxDecoration(
-                                          color: discussion.source == "1"
-                                              ? Colors.white
-                                              : clr['blue']!.withOpacity(1),
-                                          borderRadius: BorderRadius.only(
-                                              topRight: discussion.source == "1"
-                                                  ? const Radius.circular(10)
-                                                  : const Radius.circular(0),
-                                              topLeft: discussion.source == "1"
-                                                  ? const Radius.circular(0)
-                                                  : const Radius.circular(10),
-                                              bottomLeft:
-                                                  const Radius.circular(10),
-                                              bottomRight:
-                                                  const Radius.circular(10)),
-                                          border:
-                                              Border.all(color: clr["blue"]!)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Column(
+                                child: Container(
+                                  width: discussion.message.length > 30
+                                      ? size.width * .8
+                                      : size.width * .6,
+                                  decoration: BoxDecoration(
+                                      color: discussion.source == "1"
+                                          ? Colors.white
+                                          : clr['blue']!.withOpacity(1),
+                                      borderRadius: BorderRadius.only(
+                                          topRight: discussion.source == "1"
+                                              ? const Radius.circular(10)
+                                              : const Radius.circular(0),
+                                          topLeft: discussion.source == "1"
+                                              ? const Radius.circular(0)
+                                              : const Radius.circular(10),
+                                          bottomLeft: const Radius.circular(10),
+                                          bottomRight:
+                                              const Radius.circular(10)),
+                                      border: Border.all(color: clr["blue"]!)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                    "              ${discussion.dateTime}  ${discussion.hourseMin}",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                            Text(
+                                                "              ${discussion.dateTime}  ${discussion.hourseMin}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15.sp,
+                                                  color:
+                                                      discussion.source == "1"
+                                                          ? Colors.black
+                                                          : Colors.white,
+                                                  fontFamily: "EBGaramond",
+                                                ))
+
+                                            //date de tt le monde
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                                width:
+                                                    discussion.message.length >
+                                                            30
+                                                        ? size.width * .75
+                                                        : size.width * .45,
+                                                child: Text(
+                                                  discussion.message,
+                                                  style: TextStyle(
+                                                      fontFamily: "EBGaramond",
                                                       fontSize: 15.sp,
                                                       color:
                                                           discussion.source ==
                                                                   "1"
                                                               ? Colors.black
                                                               : Colors.white,
-                                                      fontFamily: "EBGaramond",
-                                                    ))
-
-                                                //date de tt le monde
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                    width: discussion.message
-                                                                .length >
-                                                            30
-                                                        ? size.width * .75
-                                                        : size.width * .45,
-                                                    child: Text(
-                                                      discussion.message,
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              "EBGaramond",
-                                                          fontSize: 15.sp,
-                                                          color: discussion
-                                                                      .source ==
-                                                                  "1"
-                                                              ? Colors.black
-                                                              : Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    )),
-                                              ],
-                                            ),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                )),
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],

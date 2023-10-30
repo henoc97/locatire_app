@@ -26,4 +26,6 @@ class UrlAdmin {
       "article/queryNotificationByTenantID.php";
   final String querymyReceivedByTenantID = "article/queryReceivedbyDate.php";
   final String deleteSupport = "article/deleteSupport.php";
+  final String deleteNotification = "article/deleteNotification.php";
+  final String deleteReceived = "article/updateReceived.php";
 }

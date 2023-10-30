@@ -447,7 +447,7 @@ class _MyPdfPageState extends State<MyPdfPage> {
       // Enregistrez le PDF sur l'appareil
       final output = await getDownloadsDirectory();
       final file = File(
-          "${output!.path}/${widget.myProperty!.propertyAddress}_${widget.myTenant!.tenantName}_${widget.received!.receivedID}.pdf");
+          "${output!.path}/${widget.myProperty!.propertyAddress}_${widget.myTenant!.tenantName}_${widget.received!.receivedID}_${widget.received!.monthPayed}.pdf");
       if (!file.existsSync()) {
         await file.writeAsBytes(await pdf.save());
       }
