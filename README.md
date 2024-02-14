@@ -3,6 +3,7 @@
 A new Flutter project.
 
 ## Getting Started
+[Green Gradient Application Showcase Presentation_3.pdf](https://github.com/henoc97/locatire_app/files/14281305/Green.Gradient.Application.Showcase.Presentation_3.pdf)
 
 This project is a starting point for a Flutter application.
 
